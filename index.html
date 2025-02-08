@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Pemesanan Film</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Membuat konten berada di tengah */
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .film-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 20px 0;
+            max-width: 1200px; /* Batasi lebar maksimum container */
+            width: 100%; /* Agar container tidak melebar terlalu jauh */
+            justify-content: center; /* Membuat kartu film berada di tengah */
+        }
+        .film-card {
+            flex: 0 0 auto;
+            width: 200px;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            overflow: hidden; /* Agar gambar tidak keluar dari kotak */
+        }
+        .film-card:hover {
+            transform: scale(1.05);
+        }
+        .film-card img {
+            width: 100%;
+            height: 300px; /* Ukuran gambar disamakan */
+            object-fit: cover; /* Agar gambar tidak terdistorsi */
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .film-card h3 {
+            margin: 10px 0;
+            font-size: 18px;
+            color: #333;
+        }
+        .film-card p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+        }
+        .modal-content iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+            border-radius: 10px;
+        }
+        .modal-content h2 {
+            margin: 10px 0;
+            color: #333;
+        }
+        .modal-content p {
+            color: #666;
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        /* Styling untuk tabel */
+        table {
+            width: 100%;
+            max-width: 1200px; /* Batasi lebar maksimum tabel */
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <h1>Aplikasi Pemesanan Film</h1>
+
+    <audio autoplay loop>
+        <source src="musiklatar.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+
+
+    <div class="film-container">
+        <div class="film-card" onclick="openModal('Perayaan Mati Rasa', 'Film tentang perjuangan melawan rasa sakit.', 'https://www.youtube.com/embed/-SqqreFK47E?si=jhzrLM5y2gmvmPE1')">
+            <img src="src/pm.jpg" alt="Perayaan Mati Rasa">
+            <h3>Perayaan Mati Rasa</h3>
+            <p>Durasi: 2 jam 5 menit</p>
+        </div>
+        <div class="film-card" onclick="openModal('Paddington In Peru', 'Film tentang beruang lucu bernama Paddington.', 'https://www.youtube.com/embed/NTvudSGfHRI?si=22RIte0CXEL20TH7')">
+            <img src="src/pd.jpg" alt="Paddington In Peru">
+            <h3>Paddington In Peru</h3>
+            <p>Durasi: 1 jam 35 menit</p>
+        </div>
+        <div class="film-card" onclick="openModal('Petaka G Gede', 'Film horor tentang petaka yang menyeramkan.', 'https://www.youtube.com/embed/Bs7VUc4X71k?si=2AgSEOBEd2ZjK9n9')">
+            <img src="src/pgd.webp" alt="Petaka G Gede">
+            <h3>Petaka G Gede</h3>
+            <p>Durasi: 1 jam 38 menit</p>
+        </div>
+        <div class="film-card" onclick="openModal('1 Kaka 7 Sepupu', 'Film komedi tentang keluarga besar.', 'https://www.youtube.com/embed/VIDEO_ID_4')">
+            <img src="src/1kk.webp" alt="1 Kaka 7 Sepupu">
+            <h3>1 Kaka 7 Sepupu</h3>
+            <p>Durasi: 2 jam 11 menit</p>
+        </div>
+    </div>
+
+    <h2>Jadwal Film</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Judul Film</th>
+                <th>Durasi</th>
+                <th>Lokasi</th>
+                <th>Waktu</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Perayaan Mati Rasa</td>
+                <td>2 jam 5 menit</td>
+                <td>FX Sudirman</td>
+                <td>11.00</td>
+            </tr>
+            <tr>
+                <td>Perayaan Mati Rasa</td>
+                <td>2 jam 5 menit</td>
+                <td>JGC</td>
+                <td>14.45</td>
+            </tr>
+            <tr>
+                <td>Paddington In Peru</td>
+                <td>1 jam 35 menit</td>
+                <td>Bella Terra</td>
+                <td>12.30</td>
+            </tr>
+            <tr>
+                <td>Petaka G Gede</td>
+                <td>1 jam 38 menit</td>
+                <td>Teras Kota</td>
+                <td>13.50</td>
+            </tr>
+            <tr>
+                <td>Petaka G Gede</td>
+                <td>1 jam 38 menit</td>
+                <td>Transmart C. Putih</td>
+                <td>13.45</td>
+            </tr>
+            <tr>
+                <td>1 Kaka 7 Sepupu</td>
+                <td>2 jam 11 menit</td>
+                <td>FX Sudirman</td>
+                <td>13.30</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="filmModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">×</span>
+            <iframe id="trailerVideo" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <h2 id="filmTitle"></h2>
+            <p id="filmDescription"></p>
+        </div>
+    </div>
+
+
+    <script>
+        // Fungsi untuk membuka modal
+        function openModal(title, description, videoUrl) {
+            document.getElementById('filmTitle').innerText = title;
+            document.getElementById('filmDescription').innerText = description;
+            document.getElementById('trailerVideo').src = videoUrl;
+            document.getElementById('filmModal').style.display = 'flex';
+        }
+
+        // Fungsi untuk menutup modal
+        function closeModal() {
+            document.getElementById('filmModal').style.display = 'none';
+            document.getElementById('trailerVideo').src = ''; // Menghentikan video
+        }
+
+        // Tutup modal jika mengklik di luar konten modal
+        window.onclick = function(event) {
+            const modal = document.getElementById('filmModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+    </script>
+</body>
+</html>
